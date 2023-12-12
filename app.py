@@ -15,7 +15,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/api/sign_up' , methods=['POST'])
-def signip():
+def sign_up():
     username = request.form.get('username')
     password = request.form.get('password')
     doc = {
