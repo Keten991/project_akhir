@@ -7,6 +7,28 @@
     <title>Healthy Life</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script>
+      $(document).ready(function () {
+        
+      });
+      function singup() {
+        let username = $("#username").val();
+        let password = $("#password").val();
+        $.ajax({
+          type: 'POST',
+          utl: '/api/sign_up',
+          data: {
+            username: username,
+            password: password,
+          },
+          success: function(response) {
+            cosonle.log(response)
+            if(response.result === 'success'){
+              alert(response.msg);
+              get_examples()
+            }
+          }
+        })
+      };
     </script>
 </head>
 <body>
@@ -27,12 +49,8 @@
                   <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
                   <label for="floatingPassword">Password</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Confirm Password</label>
-                  </div>
-                <button class="mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
-                <button class="mb-2 btn btn-lg rounded-3 btn-primary" type="submit" onclick="">Sign in</button>
+                <button class="mb-2 btn btn-lg rounded-3 btn-primary" type="submit" onclick="signup()">Sign up</button>
+                <button class="mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign in</button>
               </form>
             </div>
           </div>
