@@ -21,10 +21,10 @@
             password: password,
           },
           success: function(response) {
-            cosonle.log(response)
             if(response.result === 'success'){
               alert(response.msg);
-              get_examples()
+            }else {
+              alert('Failed to sign up !')
             }
           }
         })
@@ -43,11 +43,11 @@
               <form class="">
                 <div class="form-floating mb-3">
                   <input type="text" class="form-control rounded-3" id="username" placeholder="Username">
-                  <label for="floatingInput">Username</label>
+                  <label for="username">Username</label>
                 </div>
                 <div class="form-floating mb-3">
                   <input type="password" class="form-control rounded-3" id="password" placeholder="Password">
-                  <label for="floatingPassword">Password</label>
+                  <label for="password">Password</label>
                 </div>
                 <button class="mb-2 btn btn-lg rounded-3 btn-primary" type="submit" onclick="register()">Sign up</button>
                 <button class="mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign in</button>
