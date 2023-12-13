@@ -18,6 +18,18 @@ def index():
 def login():
     return render_template('login.html')
 
+@app.route('/api/sign_up' , methods=['POST'])
+def sign_up():
+    username = request.get('username')
+    password = request.get('password')
+    doc = {
+        'username' : username,
+        'password' : password,
+    }
+    db.akun.insert_one(doc)
+    return jsnotify({'result': 'success', 
+                     'msg': f'Account, {username} created successfully'})
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
  
