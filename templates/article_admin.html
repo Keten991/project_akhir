@@ -1,1 +1,242 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Article Management</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        #addArticleForm, #editArticleForm {
+            margin-bottom: 20px;
+        }
+
+        .add-article-btn {
+            margin-top: 10px;
+        }
+
+        footer {
+            background-color: #3399ff;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary sticky-top" id="navbar">
+		<div class="container">
+			<!-- <h1><a href="#" class="navbar-brand">Heavy coding</a></h1> -->
+            <a class="navbar-brand" href="#">
+                <img src="logo.png" alt="logo" style="width:80px; height:50px;">
+            </a>
+			<button class="navbar-toggler" data-toggle="collapse" data-target="#mynav" >
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="mynav">
+				<ul class="navbar-nav ml-auto text-center">
+                    <li class="nav-item"><a class="nav-link" href="">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#" style="color:#fff;">Article</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">Forum Discussion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">Login</a></li>
+				</ul>
+                
+			</div>
+		</div>
+	</nav>
+
+    <main class="flex-shrink-0">
+        <div class="container mt-5">
+            <h2>Article Management</h2>
+            
+            <!-- Search Bar -->
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search Articles" id="searchInput">
+                <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="searchArticles()">Search</button>
+                </div>
+            </div>
+        
+            <!-- Add Article Form -->
+            <div id="addArticleForm" style="display: none;">
+                <div class="form-group">
+                    <label for="articleTitle">Title:</label>
+                    <input type="text" class="form-control" id="articleTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="articleContent">Content:</label>
+                    <textarea class="form-control" id="articleContent" rows="4" required></textarea>
+                </div>
+                <button type="button" class="btn btn-success" onclick="submitAddArticleForm()">Add Article</button>
+                <button type="button" class="btn btn-secondary ml-2" onclick="cancelAddArticle()">Cancel</button>
+            </div>
+        
+            <!-- Add Article Button -->
+            <button class="btn btn-primary mb-3 add-article-btn" onclick="toggleAddArticleForm()">Add Article</button>
+        
+            <!-- Edit Article Form -->
+            <div id="editArticleForm" style="display: none;">
+                <div class="form-group">
+                    <label for="editArticleTitle">Title:</label>
+                    <input type="text" class="form-control" id="editArticleTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="editArticleContent">Content:</label>
+                    <textarea class="form-control" id="editArticleContent" rows="4" required></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="submitEditArticleForm()">Save Changes</button>
+                <button type="button" class="btn btn-secondary ml-2" onclick="cancelEditArticle()">Cancel</button>
+            </div>
+        
+            <!-- Article List -->
+            <ul class="list-group" id="articleList">
+                <!-- Artikel ditampilkan di sini -->
+            </ul>
+            </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Capstone Learning-X. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let articles = [];
+        let editIndex = null;
+
+        function displayArticles() {
+            const articleList = document.getElementById('articleList');
+            articleList.innerHTML = '';
+
+            articles.forEach((article, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item';
+                listItem.innerHTML = `
+                    <div>
+                    <h3 class="article-title" onclick="openEditArticleForm(${index})">${article.title}</h3>
+                    <p>${article.content}</p>
+                    </div>
+                    <div class="float-right">
+                    <button class="btn btn-warning btn-sm" onclick="openEditArticleForm(${index})">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteArticle(${index})">Delete</button>
+                    </div>
+                `;
+                articleList.appendChild(listItem);
+            });
+        }
+
+        function addArticle(title, content) {
+            articles.push({ title, content });
+            displayArticles();
+        }
+
+        function editArticle(index) {
+            const editArticleForm = document.getElementById('editArticleForm');
+            const article = articles[index];
+
+            document.getElementById('editArticleTitle').value = article.title;
+            document.getElementById('editArticleContent').value = article.content;
+
+            editIndex = index;
+            toggleFormVisibility(addArticleForm, false);
+            toggleFormVisibility(editArticleForm, true);
+        }
+
+        function submitEditArticleForm() {
+            const title = document.getElementById('editArticleTitle').value;
+            const content = document.getElementById('editArticleContent').value;
+
+            if (title && content) {
+                articles[editIndex].title = title;
+                articles[editIndex].content = content;
+                displayArticles();
+                toggleFormVisibility(editArticleForm, false);
+            } else {
+                alert('Please enter both title and content.');
+            }
+        }
+
+        function deleteArticle(index) {
+            const confirmDelete = confirm('Are you sure you want to delete this article?');
+
+            if (confirmDelete) {
+                articles.splice(index, 1);
+                displayArticles();
+            }
+        }
+
+        function openEditArticleForm(index) {
+            editArticle(index);
+        }
+
+        function toggleAddArticleForm() {
+            const addArticleForm = document.getElementById('addArticleForm');
+            toggleFormVisibility(addArticleForm, true);
+            toggleFormVisibility(editArticleForm, false);
+            clearAddArticleForm();
+        }
+
+        function toggleFormVisibility(form, isVisible) {
+            form.style.display = isVisible ? 'block' : 'none';
+        }
+
+        function submitAddArticleForm() {
+            const title = document.getElementById('articleTitle').value;
+            const content = document.getElementById('articleContent').value;
+
+            if (title && content) {
+                addArticle(title, content);
+                toggleFormVisibility(addArticleForm, false);
+                clearAddArticleForm();
+            } else {
+                alert('Please enter both title and content.');
+            }
+        }
+
+        function cancelAddArticle() {
+            toggleFormVisibility(addArticleForm, false);
+            clearAddArticleForm();
+        }
+
+        function cancelEditArticle() {
+            toggleFormVisibility(editArticleForm, false);
+            clearEditArticleForm();
+        }
+
+        function clearAddArticleForm() {
+            document.getElementById('articleTitle').value = '';
+            document.getElementById('articleContent').value = '';
+        }
+
+        function clearEditArticleForm() {
+            document.getElementById('editArticleTitle').value = '';
+            document.getElementById('editArticleContent').value = '';
+        }
+
+        function searchArticles() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const filteredArticles = articles.filter(article =>
+            article.title.toLowerCase().includes(searchInput) ||
+            article.content.toLowerCase().includes(searchInput)
+            );
+
+            displayArticles();
+        }
+
+        displayArticles();
+    </script>
+
+</body>
+</html>
