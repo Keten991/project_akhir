@@ -7,8 +7,10 @@ import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.z9fd051.mongodb.net/?retryWrites=true&w=majority')
-db = client.dbsparta
+Mongo_client = 'mongodb+srv://test:sparta@cluster0.i8ofwto.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp'
+client = MongoClient(Mongo_client)
+
+db = client.projectAkhir
 
 app = Flask(__name__)
 
@@ -24,6 +26,7 @@ def login():
 @app.route('/signup')
 def signup():
     return render_template('signup.html')
+
 
 @app.route('/sign_up' , methods=['POST'])
 def sign_up():
