@@ -79,17 +79,22 @@ def sign_in():
 
 @app.route('/sign_up' , methods=['POST'])
 def sign_up():
-    username = request.form('username')
-    password = request.form('password')
-    count = db.user.count_documents({})
-    num = count + 1
-    doc = {
-        'num' :num, 
-        'username' : username,
-        'password' : password,
-    }
-    db.user.insert_one(doc)
-    return jsonify({'msg': f'Account, {username} created successfully'})
+    id_receive = request.form.get('id_give')
+    pw_receive = request.form.get('pw_give')
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+    
+    verify = db.user.find_one({'id': id_receive})
+    if verify:
+        return jsonify({
+            'result': 'fail',
+            'msg': f'An account with id {id_receive} already exists. Please login!'
+        })
+    else:
+        db.user.insert_one({
+            'id': id_receive,
+            'pw': pw_hash,
+        })
+        return jsonify({'result': 'success'})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
