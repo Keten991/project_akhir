@@ -125,4 +125,8 @@ img {
 	width: 170px;
 	height: 60px;
 }
+
+.help {
+    color: gray;
+}
   /* login css end */
