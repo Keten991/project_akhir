@@ -20,11 +20,11 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET'])
 def login():
     return render_template('login.html')
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET'])
 def signup():
     return render_template('signup.html')
 
@@ -94,20 +94,20 @@ def api_login():
             {"result": "fail", "msg": "Either your email or your password is incorrect"}
         )   
 
-@app.route('/sign_up' , methods=['POST'])
-def sign_up():
+@app.route('/api/signup' , methods=['POST'])
+def api_signup():
     id_receive = request.form.get('id_give')
     pw_receive = request.form.get('pw_give')
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
     
-    verify = db.user.find_one({'id': id_receive})
+    verify = db.users.find_one({'id': id_receive})
     if verify:
         return jsonify({
             'result': 'fail',
-            'msg': f'An account with id {id_receive} already exists. Please login!'
+            'msg': f'An account with id {id_receive} already exists. Please login!',
         })
     else:
-        db.user.insert_one({
+        db.users.insert_one({
             'id': id_receive,
             'pw': pw_hash,
         })
