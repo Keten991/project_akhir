@@ -7,7 +7,7 @@ import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-Mongo_client = ''
+Mongo_client = 'mongodb+srv://test:sparta@cluster0.i8ofwto.mongodb.net/?retryWrites=true&w=majority'
 client = MongoClient(Mongo_client)
 
 db = client.projectAkhir
@@ -39,6 +39,10 @@ def diskusi():
         return redirect(url_for("login", msg="Your token has expired"))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="There was problem logging you in"))
+    
+# @app.route("/home", methods=["POST"])
+# def home():
+
 
 @app.route("/api/login", methods=["POST"])
 def api_login():
