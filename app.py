@@ -20,6 +20,18 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/article')
+def article():
+    return render_template('article.html')
+
+@app.route('/forum_discussion')
+def forum_discussion():
+    return render_template('forum_diskusion.html')
+
+@app.route('/artikel/detail')
+def detail_artikel():
+    return render_template('detail_article.html')
+
 @app.route('/login', methods=['GET'])
 def login():
     return render_template('login.html')
