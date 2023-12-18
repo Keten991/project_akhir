@@ -32,6 +32,10 @@ def forum_discussion():
 def detail_artikel():
     return render_template('detail_article.html')
 
+@app.route('/article_admin')
+def article_admin():
+    return render_template('article_admin.html')
+
 @app.route('/login', methods=['GET'])
 def login():
     return render_template('login.html')
@@ -93,6 +97,35 @@ def api_signup():
             'pw': pw_hash,
         })
         return jsonify({'result': 'success'})
+    
+@app.route('/home_article')
+def home_article():
+   articles = list(db.article.find({},{'_id':False}).limit(3))
+   return  jsonify({'articles':articles})
+
+@app.route('/laman_article')
+def laman_article():
+   articles = list(db.article.find({},{'_id':False}))
+   return  jsonify({'articles':articles})
+
+@app.route('/article',methods=['POST'])
+def save_article():
+    title_receive = request.form["title_give"]
+    content_receive = request.form["content_give"]
+
+    file = request.files['file_give']
+    extention = file.filename.split('.')[-1]
+    filename = f'static/post-articles-{extention}'
+    file.save(filename)
+
+    doc = {
+        'file': filename,
+        'title':title_receive,
+        'content':content_receive,
+    }
+
+    db.article.insert_one(doc)
+    return jsonify ({'massage':'data was saved!!!'})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
