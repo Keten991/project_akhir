@@ -1,6 +1,7 @@
 import os
 from os.path import join, dirname
 from pymongo import MongoClient
+from dotenv import load_dotenv
 import requests
 import jwt
 from datetime import datetime, timedelta
@@ -8,10 +9,16 @@ import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-Mongo_client = 'mongodb+srv://test:sparta@cluster0.i8ofwto.mongodb.net/?retryWrites=true&w=majority'
-client = MongoClient(Mongo_client)
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
-db = client.projectAkhir
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME =  os.environ.get("DB_NAME")
+
+client = MongoClient(MONGODB_URI)
+
+db = client[DB_NAME]
+
 SECRET_KEY = 'SPARTA'
 TOKEN_KEY = 'mytoken'
 app = Flask(__name__)
