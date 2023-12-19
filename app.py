@@ -25,9 +25,9 @@ def index():
 def article():
     return render_template('article.html')
 
-@app.route('/forum_discussion')
-def forum_discussion():
-    return render_template('forum_diskusion.html')
+@app.route('/tentang_kita')
+def tentang_kita():
+    return render_template('tentang_kita.html')
 
 @app.route('/artikel/detail')
 def detail_artikel():
@@ -44,22 +44,6 @@ def login():
 @app.route('/signup', methods=['GET'])
 def signup():
     return render_template('signup.html')
-
-@app.route("/diskusi")
-def diskusi():
-    token_receive = request.cookies.get("mytoken")
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.user.find_one({"id": payload["id"]})
-        return render_template('forum_diskusion.html', user_info=user_info)
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", msg="Your token has expired"))
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("login", msg="There was problem logging you in"))
-    
-# @app.route("/home", methods=["POST"])
-# def home():
-
 
 @app.route("/api/login", methods=["POST"])
 def api_login():
@@ -80,7 +64,7 @@ def api_login():
             {"result": "fail", "msg": "Either your email or your password is incorrect"}
         )   
 
-@app.route('/api/signup' , methods=['POST'])
+@app.route('/sign_up' , methods=['POST'])
 def api_signup():
     id_receive = request.form.get('id_give')
     pw_receive = request.form.get('pw_give')
