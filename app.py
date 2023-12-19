@@ -1,6 +1,7 @@
 import os
 from os.path import join, dirname
 from pymongo import MongoClient
+import requests
 import jwt
 from datetime import datetime, timedelta
 import hashlib
@@ -85,14 +86,14 @@ def api_signup():
     pw_receive = request.form.get('pw_give')
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
     
-    verify = db.users.find_one({'id': id_receive})
+    verify = db.user.find_one({'id': id_receive})
     if verify:
         return jsonify({
             'result': 'fail',
             'msg': f'An account with id {id_receive} already exists. Please login!',
         })
     else:
-        db.users.insert_one({
+        db.user.insert_one({
             'id': id_receive,
             'pw': pw_hash,
         })
@@ -126,6 +127,15 @@ def save_article():
 
     db.article.insert_one(doc)
     return jsonify ({'massage':'data was saved!!!'})
+
+@app.route('/article/<article_id>')
+def article_detail(article_id):
+    user_info = db.article.find_one(
+            {'title': article_id},
+            {'_id': False}
+            )
+    definitions = user_info.json()
+    return render_template('detail_article.html', article=article_id, definitions=definitions)
 
 
 if __name__ == '__main__':

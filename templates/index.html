@@ -117,6 +117,7 @@
                         let title = articles[i]["title"];
                         let content = articles[i]["content"];
                         let file = articles[i]["file"];
+                        let detail = articles[i];
                         let temp_html = `
                 <div class="col-12 col-md-12 col-lg-4">
                     <div class="card text-light text-center bg-white pb-2">
@@ -125,7 +126,7 @@
                                     src="../${file}"></div>
                             <h3 class="card-title">${title}</h3>
                             <p class="lead">${content}</p>
-                            <button class="btn bg-warning text-dark">Selengkapnya</button>
+                            <a class="btn bg-warning text-dark" href="/article">Selengkapnya</a>
                         </div>
                     </div>
                 </div>`;
