@@ -6,22 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Healthy Life</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
+    <link rel="stylesheet" href="static/style.css">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="/static/style.css">
 
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     
 
-    <!-- <script src="{{ url_for('static', filename='myjs.js')}}"></script>
-    <script>
-        $(document).ready(function () {
-            get_posts();
-        })
-    </script> -->
+
     <style>
           footer {
             background-color: #333;
@@ -38,13 +33,92 @@
             text-align: center;
             width: 100%;
         }
+        *{
+            margin:0px;
+            padding: 0px;
+        }
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .main{
+            width: 900px;
+            margin: 30px auto;
+        }
+        article img{
+            width: 250px;
+            height: 200px;
+            float: left;
+            margin: 10px 20px 0px 0px;
+            border-radius: 10px;
+        }
+        .clear{
+            clear: left;
+        }
+        hr{
+            border: 3px solid teal;
+            margin-top: 10px;
+        }
     </style>
 
 </head>
 
-<body class="has-navbar-fixed-top">
+<body>
     {% include 'header.html' %}
-    <h1>Forum diskusi</h1>
+
+    <div class="main">
+        <article>
+            <img src="https://th.bing.com/th/id/OIP.zLo0M7QkCHQ6Vdv98Y2izgHaHa?rs=1&pid=ImgDetMain" alt="">
+            <br>
+            <br>
+            <br>
+            <P> NAMA : M.HARIANTO  </P>
+            <P>ASAL : LOMBOK,NTB</P>
+            <P>HOBI : FUTSAL,BADMINTON</P>
+        </article>
+<div class="clear">
+           <hr>
+        <article>
+            <img src="https://th.bing.com/th/id/OIP.zLo0M7QkCHQ6Vdv98Y2izgHaHa?rs=1&pid=ImgDetMain" alt="">
+            <br>
+            <br>
+            <br>
+            <P> NAMA : Mu'alif Ihwan Kurniawan </P>
+            <P>ASAL : Yogyakarta </P>
+            <P>HOBI : Gaming ,Traveling</P>
+        </article>
+        <div class="clear"></div>
+        <hr>
+        <article>
+            <img src="https://th.bing.com/th/id/OIP.zLo0M7QkCHQ6Vdv98Y2izgHaHa?rs=1&pid=ImgDetMain" alt="">
+            <br>
+            <br>
+            <br>
+            <P> NAMA : Dwi jati Wijaya Kusuma </P>
+            <P>ASAL : palu </P>
+            <P>HOBI : Gaming </P> 
+        </article>
+        <div class="clear"></div>
+        <hr>
+        <article>
+            <img src="https://th.bing.com/th/id/OIP.zLo0M7QkCHQ6Vdv98Y2izgHaHa?rs=1&pid=ImgDetMain" alt="">
+            <br>
+            <br>
+            <br>
+            <P> NAMA : Dewi Lukas </P>
+            <P>ASAL : Toraja</P>
+            <P>HOBI : Bernyanyi</P>
+        </article>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
     <footer class="bg-dark p-2 text-center">
         <div class="container">
             <p class="text-white">Kelompok 6 Learning X batch 5</p>
