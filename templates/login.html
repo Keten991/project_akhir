@@ -71,7 +71,7 @@
                 if (response['result'] === 'success') {
                     $.cookie('mytoken', response['token']);
                     alert('Login complete!')
-                    window.location.href = '/diskusi'
+                    window.location.href = '/article_admin'
                 } else {
                     alert(response['msg'])
                 }
